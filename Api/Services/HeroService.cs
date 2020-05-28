@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BooksApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
 namespace BooksApi.Services
@@ -36,5 +37,7 @@ namespace BooksApi.Services
 
         public void Remove(string id) =>
             _heros.DeleteOne(hero => hero.Id == id);
+
+        public ActionResult<List<Hero>> SearchByName(string name) => _heros.Find(hero => hero.Name.ToLower().Contains(name.ToLower())).ToList();
     }
 }

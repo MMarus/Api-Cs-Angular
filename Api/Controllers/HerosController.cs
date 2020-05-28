@@ -16,12 +16,8 @@ namespace BooksApi.Controllers
             _heroService = heroService;
         }
 
-        [HttpGet]
-        public ActionResult<List<Hero>> Get() =>
-            _heroService.Get();
-
         [HttpGet("{id:length(24)}", Name = "GetHero")]
-        public ActionResult<Hero> Get(string id)
+        public ActionResult<Hero> GetById(string id)
         {
             var hero = _heroService.Get(id);
 
@@ -32,6 +28,11 @@ namespace BooksApi.Controllers
 
             return hero;
         }
+
+        [HttpGet]
+        public ActionResult<List<Hero>> SearchByName([FromQuery] string name) =>
+             string.IsNullOrEmpty(name) ? _heroService.Get() : _heroService.SearchByName(name);
+
 
         [HttpPost]
         public ActionResult<Hero> Create(Hero hero)
